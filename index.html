@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
+  <link rel="icon" href="src/logo/LU.Cator.png" type="image/png">
+  <title>LUcator</title>
+</head>
+<style>
+    nav{
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    background:rgb(6, 102, 53);
+    width: 80px;
+    z-index: 2;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    opacity: 90%;
+    animation: slideIn 2s forwards;
+  }
+  @keyframes slideIn {
+      from {
+          transform: translatex(-50px);
+          opacity: 0;
+      }
+      to {
+          transform: translatex(0);
+          opacity: 1;
+      }
+    
+}
+
+#map {
+  position: absolute;
+  margin: 0 !important;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  z-index: 1;
+  top: 0;
+  bottom: 0 !important;
+  background-color: rgb(250, 250, 250);
+  margin-bottom: 0;
+  animation: slideout 0.5s forwards;
+}
+@keyframes slideout {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+.container {
+  font-family: "Trebuchet MS", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  max-height: 150px;
+  z-index: 2;
+  animation: slideout 2s forwards;
+}
+@keyframes slideout {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>
+<body>
+  <!--*Header-->  
+  <div class="container">
+    <h1 id="ulo">
+      <span id="logo_box"><img id="logo" src="src/logo/LU.cator(1).png">LU</span>
+      <span id="cator">CATOR</span>
+<div class="buttones">    
+    <button id="rum" class="ruum"><i class="fa-solid fa-school"></i> Room</button>
+    <button id="bilding" class="ruum"><i class="fa-solid fa-building"></i> Building</button>
+    <button id="opis" class="ruum"><i class="fa-regular fa-building"></i> Offices</button>
+    <button id="all" class="ruum"><i class="fa-solid fa-rotate-right"></i> All</button>
+    <button id="parking" class="ruum"><i class="fa-solid fa-car-side"></i> Parking</button>
+    <button id="cr" class="ruum"><i class="fa-solid fa-restroom"></i> C.R</button>
+    <button id="kmplks" class="ruum"><i class="fa-solid fa-house"></i> Complex</button>
+</div>
+</h1>
+    <div class="search-container">
+      <div id="sg">
+        <div class="search-bar">
+          <input id="output" placeholder="Search..."></input>
+          <button id="srchbtn"><i class="fa fa-search"></i></button>
+          <script src="assets/javascript/autocomplete.js"></script>
+        </div>
+      </div>
+    </div>
+  </div>  
+   
+  <!--? Sidebar -->
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Add your styles here */
+        .submenu {
+            display: none;
+            padding: 6px 6px 14px 80px;
+            margin-top: -10px;
+            text-align: left; /* Center the submenu items */
+            transition: display 0.5s ease-in-out ; /* Add transition for display property */
+        }
+
+        .submenu.visible {
+            display: block;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li {
+            display: inline-block;
+            margin-right: 15px;
+            margin-top: -5px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: whitesmoke;
+        }
+
+        /* Add more styles as needed */
+
+    </style>
+    <title>Your Page Title</title>
+</head>
+<body>
+
+    <div class="sidebar"> 
+<nav>
+    <ul class="nav-links">
+        <li>
+            <a href="#" class="logo">
+                <img src="src/logo/LU.cator(2).png" alt="">
+                <span class="nav-item">LUcator</span>
+            </a>
+        </li>
+
+        <div class="luRooms">
+        <li id="luRooms">
+            <a href="#">
+                <i class='bx bx-door-open'></i>
+                <span class="nav-item">LU Rooms</span>
+                <i class='bx bxs-chevron-down'></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#" onclick="flyToMarker('Lu01')">Lu01</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu02')">Lu02</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu03')">Lu03</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu04')">Lu04</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu05')">Lu05</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu06')">Lu06</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu07')">Lu07</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu08')">Lu08</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu09')">Lu09</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu10')">Lu10</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu11')">Lu11</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu12')">Lu12</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu13')">Lu13</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu13')">Lu14</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu15')">LU15</a></li>
+                <!-- Add more Lu submenus as needed -->
+            </ul>
+        </li>
+    </div>
+
+        <div class="ADMIN"> 
+        <li id="ADMIN">
+            <a href="#">
+                <i class='bx bx-door-open'></i>
+                <span class="nav-item">BLDG Offices</span>
+                <i class='bx bxs-chevron-down'></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#" onclick="flyToMarker('Admin Office')">Admin Office</a></li>
+                <li><a href="#" onclick="flyToMarker('Cashier')">Cashier's Office</a></li>
+                <li><a href="#" onclick="flyToMarker('HRMO')">HRMO</a></li>
+                <li><a href="#" onclick="flyToMarker('Research Center')">Research Center</a></li>
+                <li><a href="#" onclick="flyToMarker('Clinic')">University Clinic</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu05')">Registrar</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu04')">Records Office</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu07')">CHS</a></li>
+                <li><a href="#" onclick="flyToMarker('Lu09')">SHS Faculty Room</a></li>
+                
+            </ul>
+        </li>
+    </div> 
+
+        <li><a href="#">
+            <i class='bx bx-baguette'></i>
+            <span class="nav-item">Canteen</span>
+        </a></li>
+
+        <li>
+            <a href="#">
+              <i class= "bx bx-male-female"></i>
+              <span class="nav-item">Comfort Room</span>
+          </a></li>
+
+        <li><a href="#" onclick="flyToMarker('Rizal')">
+            <i class='bx bx-body'></i>
+            <span class="nav-item">Rizal</span>
+        </a></li>
+
+        <li>
+          <a href="#" onclick="flyToMarker('Oreta Building')">
+            <i class='bx bx-building' ></i>
+            <span class="nav-item">Oreta Building</span>
+        </a></li>
+
+        <li><a href="#" onclick="flyToMarker('New Building')">
+            <i class='bx bx-buildings'></i>
+            <span class="nav-item">New Building</span>
+        </a></li>
+
+        <li id="settings">
+          <a href="#">
+              <i class="bx bx-cog"></i>
+              <span class="nav-item">About Us</span>
+              <i class='bx bxs-chevron-down'></i>
+          </a>
+          <ul class="submenu">
+              <li><a href="https://www.facebook.com/LagunaUniversityOfficial">Facebook</a></li>
+              <li><a href="https://lu.edu.ph/">LU Main Page</a></li>
+              <li><a href="https://open.spotify.com/?flow_ctx=ced5f144-2dfc-477c-894f-44233743541e%3A1708179044" target="_blank">Spotify</a></li>
+              <!-- Add more Settings submenus as needed -->
+          </ul>
+      </li>
+
+      <li>
+  <a href="#" onclick="openLogoutModal()">
+      <i class='bx bx-log-out'></i>
+      <span class="nav-item">Logout</span>
+  </a>
+</li>
+</nav>
+
+<!-- Logout Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+      <p>Are you sure you want to log out?</p>
+      <button class="modal-btn" onclick="logout()">Yes</button>
+      <button class="modal-btn" onclick="closeLogoutModal()">No</button>
+  </div>
+</div>
+    </ul>
+<script>
+    // Function to open the logout modal
+    function openLogoutModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'block';
+    }
+
+    // Function to close the logout modal
+    function closeLogoutModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+
+    // Function to handle logout
+    function logout() {
+        // Redirect to the main page
+        window.location.href = 'logout.php'; // Replace 'main-page.html' with your actual main page URL
+    }
+</script>
+
+
+<script>
+    // JavaScript to toggle submenu visibility
+    document.getElementById('luRooms').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        var submenu = this.querySelector('.submenu');
+        submenu.classList.toggle('visible');
+    });
+    
+    // JavaScript to toggle submenu visibility for Settings
+    document.getElementById('ADMIN').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        var submenu = this.querySelector('.submenu');
+        submenu.classList.toggle('visible');
+    });
+
+    // JavaScript to toggle submenu visibility for Settings
+    document.getElementById('settings').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        var submenu = this.querySelector('.submenu');
+        submenu.classList.toggle('visible');
+    });
+
+</script>
+
+
+<script>
+  // JavaScript to handle automatic redirection for submenu items
+  document.addEventListener('DOMContentLoaded', function() {
+      var submenuItems = document.querySelectorAll('.submenu a');
+      submenuItems.forEach(function(item) {
+          item.addEventListener('click', function(e) {
+              e.preventDefault(); // Prevent the default link behavior
+              window.location.href = this.getAttribute('href'); // Redirect to the specified URL
+          });
+      });
+  });
+</script>
+<script>
+    // Initialize your map
+    var map = L.map('map').setView([14.25672, 121.4053], 20); //1
+    var map = L.map('map').setView([14.25666, 121.40532], 20); //2
+    var map = L.map('map').setView([14.2566, 121.40534], 20); //3
+    var map = L.map('map').setView([14.25645, 121.4054], 20); //4
+    var map = L.map('map').setView([14.25636, 121.40545], 20); //5
+    var map = L.map('map').setView([14.25627, 121.40549], 20); //6
+    var map = L.map('map').setView([14.25616, 121.40554], 20); //07/CHS
+    var map = L.map('map').setView([14.25602, 121.40574], 20); //8
+    var map = L.map('map').setView([14.25615, 121.40567], 20); //9/SHS faculty room
+    var map = L.map('map').setView([14.25628, 121.40561], 20); //10
+    var map = L.map('map').setView([14.256367, 121.40557], 20); //11/record office
+    var map = L.map('map').setView([14.25643, 121.40555], 20); //12
+    var map = L.map('map').setView([14.256545,121.40551], 20); //13/14/registrar
+    var map = L.map('map').setView([14.25665, 121.40545], 20); //15
+
+    var map = L.map('map').setView([14.25559, 121.40774], 20); // oreta building
+    var map = L.map('map').setView([14.25426,121.40904], 20); // new building
+    var map = L.map('map').setView([14.25568, 121.4058], 20); //rizal
+
+    var map = L.map('map').setView([14.257, 121.40529], 20); //admin
+    var map = L.map('map').setView([14.25671, 121.40543], 20); //clinic
+    var map = L.map('map').setView([14.25694, 121.40532], 20); //cashier office
+    var map = L.map('map').setView([14.25685, 121.40537], 20); //HRMO
+    var map = L.map('map').setView([14.25680, 121.4054], 20); //research center
+
+   
+    
+
+
+    // Add a sample marker for Lu01
+    var markerLu01 = L.marker([14.25672, 121.4053]).addTo(map);
+    markerLu01.bindPopup("<b>Lu01</b>").openPopup();
+
+    var markerLu01 = L.marker([14.25666, 121.40532]).addTo(map);
+    markerLu01.bindPopup("<b>Lu02</b>").openPopup();
+
+    var markerLu01 = L.marker([14.2566, 121.40534]).addTo(map);
+    markerLu01.bindPopup("<b>Lu03</b>").openPopup(); 
+
+    var markerLu01 = L.marker([14.25645, 121.4054]).addTo(map);
+    markerLu01.bindPopup("<b>Lu04</b>").openPopup(); 
+
+    var markerLu01 = L.marker([14.25636, 121.40545]).addTo(map);
+    markerLu01.bindPopup("<b>Lu05</b>").openPopup(); 
+
+    var markerLu01 = L.marker([14.25627, 121.40549]).addTo(map);
+    markerLu01.bindPopup("<b>Lu06</b>").openPopup(); 
+
+    var markerLu01 = L.marker([14.25616, 121.40554]).addTo(map);
+    markerLu01.bindPopup("<b>Lu07</b>").openPopup(); //LU07/CHS
+
+    var markerLu01 = L.marker([14.25602, 121.40574]).addTo(map);
+    markerLu01.bindPopup("<b>Lu08</b>").openPopup();
+
+    var markerLu01 = L.marker([14.25615, 121.40567]).addTo(map);
+    markerLu01.bindPopup("<b>Lu09</b>").openPopup(); //09/SHS faculty room
+
+    var markerLu01 = L.marker([14.25628, 121.40561]).addTo(map);
+    markerLu01.bindPopup("<b>Lu10</b>").openPopup();
+    
+    var markerLu01 = L.marker([14.256367, 121.40557]).addTo(map);
+    markerLu01.bindPopup("<b>Lu11</b>").openPopup(); //11/Record office
+
+    var markerLu01 = L.marker([14.25643, 121.40555]).addTo(map);
+    markerLu01.bindPopup("<b>Lu12</b>").openPopup();
+
+    var markerLu01 = L.marker([14.256545,121.40551]).addTo(map);
+    markerLu01.bindPopup("<b>Lu13</b>").openPopup(); //13/14/Registrar
+   
+    var markerLu01 = L.marker([14.25665, 121.40545]).addTo(map);
+    markerLu01.bindPopup("<b>Lu15</b>").openPopup();
+
+
+    var markerLu01 = L.marker([14.25559, 121.40774]).addTo(map);
+    markerLu01.bindPopup("<b>Oreta Building</b>").openPopup();
+
+    var markerLu01 = L.marker([14.25426,121.40904]).addTo(map);
+    markerLu01.bindPopup("<b>New Building</b>").openPopup();
+
+    var markerLu01 = L.marker([14.25568, 121.4058]).addTo(map);
+    markerLu01.bindPopup("<b>Rizal</b>").openPopup();
+
+
+    var markerLu01 = L.marker([14.257, 121.40529]).addTo(map);
+    markerLu01.bindPopup("<b>Admin Office</b>").openPopup(); //admin
+
+    var markerLu01 = L.marker([14.25694, 121.40532]).addTo(map);
+    markerLu01.bindPopup("<b>Cashier</b>").openPopup(); //cashier
+
+    var markerLu01 = L.marker([14.25685, 121.40537]).addTo(map);
+    markerLu01.bindPopup("<b>HRMO</b>").openPopup(); //hrmo
+
+    var markerLu01 = L.marker([14.25680, 121.4054]).addTo(map);
+    markerLu01.bindPopup("<b>Research Center</b>").openPopup(); //research center
+
+    var markerLu01 = L.marker([14.25671, 121.40543]).addTo(map);
+    markerLu01.bindPopup("<b>Clinic</b>").openPopup(); //clinic
+
+
+    // Function to fly to the specified marker
+    function flyToMarker(markerId) {
+        switch (markerId) {
+            case 'Lu01':
+                map.flyTo([14.25672, 121.4053], 20); // Fly to Lu01 marker location
+                break;  
+                case 'Lu02':
+                map.flyTo([14.25666, 121.40532], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu03':
+                map.flyTo([14.2566, 121.40534], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu04':
+                map.flyTo([14.25645, 121.4054], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu05':
+                map.flyTo([14.25636, 121.40545], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu06':
+                map.flyTo([14.25627, 121.40549], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu07':
+                map.flyTo([14.25616, 121.40554], 20); // Fly to Lu07/CHS
+                break;
+                case 'Lu08':
+                map.flyTo([14.25602, 121.40574], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu09':
+                map.flyTo([14.25615, 121.40567], 20); // Fly to Lu09/SHS faculty
+                break;
+                case 'Lu10':
+                map.flyTo([14.25628, 121.40561], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu11':
+                map.flyTo([14.256367, 121.40557], 20); // Fly to Lu11/record office
+                break;
+                case 'Lu12':
+                map.flyTo([14.25643, 121.40555], 20); // Fly to Lu01 marker location
+                break;
+                case 'Lu13':
+                map.flyTo([14.256545,121.40551], 20); // Fly to Lu13/Lu14/Registrar
+                break;
+                case 'Lu15':
+                map.flyTo([14.25665, 121.40545], 20); // Fly to Lu01 marker location
+                break;
+
+
+                case 'Oreta Building':
+                map.flyTo([14.25559, 121.40774], 20); // Fly to Lu01 marker location
+                break;
+
+                case 'New Building':
+                map.flyTo([14.25426,121.40904], 20); // Fly to Lu01 marker location
+                break;
+
+                case 'Rizal':
+                map.flyTo([14.25568, 121.4058], 20); // Fly to Lu01 marker location
+                break;
+
+
+
+                case 'Admin Office':
+                map.flyTo([14.257, 121.40529], 20); // admin
+                break;
+                
+                case 'Cashier':
+                map.flyTo([14.25694, 121.40532], 20); // cashier
+                break;
+                
+                case 'HRMO':
+                map.flyTo([14.25685, 121.40537], 20); //hrmo
+                break;
+                
+                case 'Research Center':
+                map.flyTo([14.25680, 121.4054], 20); // research center
+                break;
+                 
+                case 'Clinic':
+                map.flyTo([14.25671, 121.40543], 20); // clinic
+                break;
+        }
+    }
+
+    // Function to handle logout confirmation
+    function confirmLogout() {
+        var confirmLogout = window.confirm("Are you sure you want to log out?");
+        if (confirmLogout) {
+            // If the user clicks 'Yes', redirect to the main page
+            window.location.href = 'logout.php'; // Replace 'main-page.html' with your actual main page URL
+        } else {
+            // If the user clicks 'No', do nothing or handle it as needed
+            console.log("User decided not to log out.");
+        }
+    }
+    
+
+        </script>
+
+
+<!--!MAP-->
+<div id="map"></div>
+<script src="script.js"></script>
+<script src="assets/javascript/search.js"></script>
+<script src="assets/javascript/sidebar.js"></script>
+
+</body>
+</html>
+</body>
+</html>
